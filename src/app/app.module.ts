@@ -17,6 +17,16 @@ import { ManageUsersComponent } from './admin/manage-users/manage-users.componen
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { MainAdminPageComponent } from './admin/main-admin-page/main-admin-page.component';
 import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+
+import { FormsModule } from '@angular/forms';
+import { HttpInterceptorService } from './services/http-interceptor/http-interceptor.service';
+import { AuthenticationService } from './services/services';
+import { ConfirmRegisterComponent } from './pages/confirm-register/confirm-register.component';
+import { TokenGuardService } from './services/guard/token-guard/token-guard.service';
+import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
+import { AdminGuardService } from './services/guard/admin-guard/admin-guard.service';
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -34,13 +44,34 @@ import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard
     ManageUsersComponent,
     MainPageComponent,
     MainAdminPageComponent,
-    AdminDashboardComponent
+    AdminDashboardComponent,
+    ConfirmRegisterComponent,
+    AccessDeniedComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    JwtModule.forRoot({
+      config: {
+
+      }
+    })
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true
+    },
+    HttpClient,
+    AuthenticationService,
+    HttpInterceptorService,
+    TokenGuardService,
+    AdminGuardService,
+    JwtHelperService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

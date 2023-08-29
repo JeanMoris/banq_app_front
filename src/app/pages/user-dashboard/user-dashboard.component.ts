@@ -10,10 +10,11 @@ export class UserDashboardComponent implements OnInit{
 
   accountInfoList: Array<LightInfoInput> = [];
 
-  constructor(){}
+  constructor(
+  ){}
 
   ngOnInit(): void {
-    this.initializeAccountInfo()
+    this.initializeAccountInfo();
   }
 
   private initializeAccountInfo(){
