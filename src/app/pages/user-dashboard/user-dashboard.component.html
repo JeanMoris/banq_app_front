@@ -1,38 +1,67 @@
-<div class="p-2">
-  <h2>My account at a glance</h2>
-  <div class="d-flex flex-row justify-content-between card me-5 ms-5 mb-3 p-3">
-    <app-light-info *ngFor="let info of accountInfoList"
-                    [infoInput]="info"
-    ></app-light-info>
-  </div>
-  <div class="card m-3 p-3">
-    <div class="d-flex flex-row align-content-center align-items-start mb-3">
-      <div class="me-3">
-        <label class="form-label">Start date</label>
-        <!-- <ngx-datepicker [options]="dateOptions" [(ngModel)]="startDate" class="form-control"></ngx-datepicker> -->
-      </div>
-      <div class="me-3">
-        <label class="form-label">End date</label>
-        <!-- <ngx-datepicker [options]="dateOptions" [(ngModel)]="endDate" class="form-control"></ngx-datepicker> -->
-      </div>
-        <button
-          class="btn btn-primary"
-        >
+<div class="centered-content">
+  <div class="p-2">
+    <h2 class="mt-3">My account at a glance</h2>
+    <div class="d-flex flex-row justify-content-between card me-5 ms-5 mb-3 p-3">
+      <app-light-info class=""
+        *ngFor="let info of accountInfoList"
+        [infoInput]="info"
+      ></app-light-info>
+    </div>
+    <div class="card m-3 p-3">
+      <div class="d-flex flex-row align-content-center align-items-start mb-3">
+        <div class="me-3">
+          <mat-form-field>
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input
+              [formGroup]="range"
+              [rangePicker]="picker"
+            >
+              <input
+                matStartDate
+                formControlName="start"
+                placeholder="Start date"
+              />
+              <input
+                matEndDate
+                formControlName="end"
+                placeholder="End date"
+              />
+            </mat-date-range-input>
+            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+
+            <mat-error
+              *ngIf="range.controls.start.hasError('matStartDateInvalid')"
+              >Invalid start date</mat-error
+            >
+            <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')"
+              >Invalid end date</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <button class="btn btn-primary" (click)="filterStatistics()">
           <em class="fas fa-search"></em>&nbsp;Search
         </button>
-    </div>
-    <div class="card p-3">
-      <div>
-       <!--  <canvas baseChart
-                [chartType]="chartType"
-                [datasets]="dataset"
-                [labels]="labels"
-                [options]="chartOptions"
-                [legend]="true"
-                [title]="'My awesome chart'"
-
-        ></canvas> -->
       </div>
+      <div style="width: 800px;" class="card p-3">
+        <div class="canva">
+          <canvas
+            class="canva-interieur"
+            baseChart
+            [type]="chartType"
+            [datasets]="dataset"
+            [labels]="labels"
+            [options]="chartOptions"
+            [legend]="true"
+            [title]="'My awesome chart'"
+          ></canvas>
+        </div>
+    </div>
     </div>
   </div>
+
 </div>
